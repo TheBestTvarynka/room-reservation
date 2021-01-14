@@ -13,9 +13,7 @@ public class SessionFilter implements Filter {
     private static Logger logger = LogManager.getLogger(SessionFilter.class);
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-
-    }
+    public void init(FilterConfig filterConfig) throws ServletException { }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -32,7 +30,5 @@ public class SessionFilter implements Filter {
     }
 
     @Override
-    public void destroy() {
-
-    }
+    public void destroy() { }
 }

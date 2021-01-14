@@ -26,10 +26,20 @@ public interface Action {
 
     default void execute(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.setAttribute(
-                "error",
-                "Method " + request.getMethod() + " not allowed for path " + request.getServletPath()
-        );
-        request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+        String method = request.getMethod();
+        switch (method) {
+            case "GET":
+                this.get(request, response);
+                break;
+            case "POST":
+                this.post(request, response);
+                break;
+            default:
+                request.setAttribute(
+                        "error",
+                        "Method " + method + " not allowed for path " + request.getServletPath()
+                );
+                request.getRequestDispatcher("/jsp/error.jsp").forward(request, response);
+        }
     }
 }

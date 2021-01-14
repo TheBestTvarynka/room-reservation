@@ -9,19 +9,32 @@
         <servlet-name>MainServlet</servlet-name>
         <servlet-class>com.kpi.lab4.servlets.MainServlet</servlet-class>
     </servlet>
-
-    <filter>
-        <filter-name>AuthFilter</filter-name>
-        <filter-class>com.kpi.lab4.servlets.filters.SessionFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>AuthFilter</filter-name>
+    <servlet-mapping>
+        <servlet-name>MainServlet</servlet-name>
         <url-pattern>/browse</url-pattern>
         <url-pattern>/order</url-pattern>
         <url-pattern>/request</url-pattern>
         <url-pattern>/resolve</url-pattern>
         <url-pattern>/home</url-pattern>
         <url-pattern>/logout</url-pattern>
+        <url-pattern>/login</url-pattern>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>SessionFilter</filter-name>
+        <filter-class>com.kpi.lab4.servlets.filters.SessionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SessionFilter</filter-name>
+        <url-pattern>/browse</url-pattern>
+        <url-pattern>/order</url-pattern>
+        <url-pattern>/request</url-pattern>
+        <url-pattern>/resolve</url-pattern>
+        <url-pattern>/home</url-pattern>
+        <url-pattern>/logout</url-pattern>
+        <url-pattern>/</url-pattern>
+        <url-pattern>/index.jsp</url-pattern>
     </filter-mapping>
 
     <filter>
@@ -30,12 +43,10 @@
     </filter>
     <filter-mapping>
         <filter-name>PermissionFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/browse</url-pattern>
+        <url-pattern>/order</url-pattern>
+        <url-pattern>/request</url-pattern>
+        <url-pattern>/resolve</url-pattern>
     </filter-mapping>
-
-    <servlet-mapping>
-        <servlet-name>MainServlet</servlet-name>
-        <url-pattern></url-pattern>
-    </servlet-mapping>
 
 </web-app>

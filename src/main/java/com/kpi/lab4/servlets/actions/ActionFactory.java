@@ -12,7 +12,7 @@ import com.kpi.lab4.services.UserService;
 public class ActionFactory {
     public static Action getAction(String path) {
         switch (path) {
-            case "home":
+            case "/home":
                 return new HomeAction();
             case "/register":
                 return new RegisterAction(new UserService(new UserDao()));
