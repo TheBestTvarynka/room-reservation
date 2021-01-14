@@ -18,6 +18,7 @@ public class MainServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String uri = req.getRequestURI();
         try {
+//            throw new NullPointerException();
             ActionFactory.getAction(uri).execute(req, resp);
         } catch(NotFoundException e) {
             logger.info("Action not found for path: " + uri);

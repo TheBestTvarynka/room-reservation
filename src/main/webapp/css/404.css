@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Passion+One&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Muli');
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    background-image: url("/img/error_bg.jpg");
+    background-size: cover;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.window {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 0 0 2em rgba(255, 255, 255, 0.7) inset;
+    padding: 2em;
+    background-color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    color: #222225;
+}
+
+.t404 {
+    font-family: 'Passion One', cursive;
+    font-size: 10em;
+    width: 100%;
+    text-align: center;
+}
+
+.description {
+    font-family: 'Muli', sans-serif;
+    width: 100%;
+    text-align: center;
+    font-size: 1em;
+}
+
+a {
+    text-align: center;
+    margin-bottom: 1em;
+    margin-top: 0.5em;
+    font-size: 0.8em;
+    font-family: 'Muli', sans-serif;
+    color: #222225;
+}
