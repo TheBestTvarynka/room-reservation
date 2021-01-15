@@ -1,29 +1,24 @@
 package com.kpi.lab4.servlets.actions;
 
-import com.kpi.lab4.dao.OrderDao;
-import com.kpi.lab4.dao.RequestDao;
-import com.kpi.lab4.dao.RoomDao;
-import com.kpi.lab4.dao.UserDao;
 import com.kpi.lab4.exception.NotFoundException;
-import com.kpi.lab4.services.OrderService;
-import com.kpi.lab4.services.RequestService;
-import com.kpi.lab4.services.UserService;
+import com.kpi.lab4.services.ServiceFactory;
 
 public class ActionFactory {
-    public static Action getAction(String path) {
+    public Action getAction(String path) {
+        ServiceFactory serviceFactory = ServiceFactory.getInstance();
         switch (path) {
             case "/home":
                 return new HomeAction();
             case "/register":
-                return new RegisterAction(new UserService(new UserDao()));
+                return new RegisterAction(serviceFactory.createUserService());
             case "/login":
-                return new LoginAction(new UserService(new UserDao()));
+                return new LoginAction(serviceFactory.createUserService());
             case "/browse":
-                return new BrowseAction(new RequestService(new RequestDao(), new RoomDao(), new OrderDao()));
+                return new BrowseAction(serviceFactory.createRequestService());
             case "/request":
-                return new RequestAction(new RequestService(new RequestDao(), new RoomDao(), new OrderDao()));
+                return new RequestAction(serviceFactory.createRequestService());
             case "/order":
-                return new OrderAction(new OrderService(new OrderDao(), new RoomDao()));
+                return new OrderAction(serviceFactory.createOrderService());
             case "/logout":
                 return new LogOutAction();
             case "/resolve":
