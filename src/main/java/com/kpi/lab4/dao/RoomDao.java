@@ -12,6 +12,7 @@ public class RoomDao extends GeneralDao {
     public RoomDao(Connection connection) {
         this.connection = connection;
     }
+
     public List<Room> selectRooms(SelectRoomOptions options) throws SQLException {
         StringBuilder queryBuilder = new StringBuilder("select * from rooms");
         Set<RoomType> types = options.getTypes();

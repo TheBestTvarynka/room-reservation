@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class LogOutAction implements Action {
     @Override
-    public void post(HttpServletRequest request, HttpServletResponse response)
+    public void get(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         request.getSession().invalidate();
         response.sendRedirect(request.getContextPath() + "/login");
