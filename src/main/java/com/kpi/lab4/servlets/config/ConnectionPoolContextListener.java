@@ -17,14 +17,14 @@ public class ConnectionPoolContextListener implements ServletContextListener {
         if (ConnectionPool.getDataSource() == null) {
             HikariConfig config = new HikariConfig();
             config.setDriverClassName("org.postgresql.Driver");
-            // ?
             config.setJdbcUrl("jdbc:postgresql://127.0.0.1:5432/java_lab");
-            // --
             config.setUsername("postgres");
             config.setPassword("postgres");
             config.addDataSourceProperty("cachePrepStmts" , "true");
             config.addDataSourceProperty("prepStmtCacheSize" , "250");
             config.addDataSourceProperty("prepStmtCacheSqlLimit" , "2048");
+            config.setConnectionTimeout(20000);
+            config.setMaximumPoolSize(20);
             DataSource dataSource = new HikariDataSource(config);
             ConnectionPool.setDataSource(dataSource);
         }

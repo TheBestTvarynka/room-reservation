@@ -38,5 +38,6 @@ public class BrowseAction implements Action {
             request.setAttribute("error", e.getMessage());
         }
         request.getRequestDispatcher("/jsp/browse.jsp").forward(request, response);
+        service.finish();
     }
 }

@@ -45,5 +45,6 @@ public class RequestAction implements Action {
             request.setAttribute("error", "Wrong request parameters!");
         }
         request.getRequestDispatcher("/jsp/request.jsp").forward(request, response);
+        service.finish();
     }
 }

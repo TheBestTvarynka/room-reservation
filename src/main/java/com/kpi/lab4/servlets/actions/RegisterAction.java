@@ -37,5 +37,6 @@ public class RegisterAction implements Action {
             request.setAttribute("error", e.getMessage());
             request.getRequestDispatcher("/jsp/register.jsp").forward(request, response);
         }
+        userService.finish();
     }
 }

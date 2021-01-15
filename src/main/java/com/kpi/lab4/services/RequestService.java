@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class RequestService {
+public class RequestService implements Service {
     private static Logger logger = LogManager.getLogger(RequestService.class);
 
     private RequestDao requestRepository;
@@ -93,5 +93,12 @@ public class RequestService {
             logger.error("SQLException: " + e.getMessage());
             throw new UnavailableException();
         }
+    }
+
+    @Override
+    public void finish() {
+        roomRepository.releaseConnection();
+        requestRepository.releaseConnection();
+        orderRepository.releaseConnection();
     }
 }

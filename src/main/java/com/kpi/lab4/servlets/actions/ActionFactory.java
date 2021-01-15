@@ -3,8 +3,10 @@ package com.kpi.lab4.servlets.actions;
 import com.kpi.lab4.exception.NotFoundException;
 import com.kpi.lab4.services.ServiceFactory;
 
+import java.sql.SQLException;
+
 public class ActionFactory {
-    public Action getAction(String path) {
+    public Action getAction(String path) throws SQLException {
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         switch (path) {
             case "/home":

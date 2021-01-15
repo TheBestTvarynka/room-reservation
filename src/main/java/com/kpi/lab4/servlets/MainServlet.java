@@ -1,7 +1,9 @@
 package com.kpi.lab4.servlets;
 
+import com.kpi.lab4.dao.ConnectionPool;
 import com.kpi.lab4.exception.NotFoundException;
 import com.kpi.lab4.servlets.actions.ActionFactory;
+import com.zaxxer.hikari.HikariDataSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
 
 public class MainServlet extends HttpServlet {
     private static Logger logger = LogManager.getLogger(MainServlet.class);
@@ -30,6 +34,10 @@ public class MainServlet extends HttpServlet {
             logger.info("Action not found for path: " + uri);
             req.setAttribute("error", e.getMessage());
             req.getRequestDispatcher("/jsp/error.jsp").forward(req, resp);
+        } catch (SQLException e) {
+            logger.error("Can't create an action. Cause: " + e.getMessage());
+            e.printStackTrace();
+            req.getRequestDispatcher("/jsp/500.jsp").forward(req, resp);
         }
     }
 }

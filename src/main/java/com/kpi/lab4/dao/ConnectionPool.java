@@ -1,5 +1,7 @@
 package com.kpi.lab4.dao;
 
+import com.zaxxer.hikari.HikariDataSource;
+
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -17,5 +19,9 @@ public class ConnectionPool {
 
     public static Connection getConnection() throws SQLException {
         return dataSource.getConnection();
+    }
+
+    public static void releaseConnection(Connection connection) {
+        ((HikariDataSource) dataSource).evictConnection(connection);
     }
 }

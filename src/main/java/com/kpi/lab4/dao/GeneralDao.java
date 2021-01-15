@@ -9,10 +9,8 @@ public class GeneralDao {
         this.connection = connection;
     }
 
-    public Connection releaseConnection() {
-        Connection connection = this.connection;
-        this.connection = null;
-        return connection;
+    public void releaseConnection() {
+        ConnectionPool.releaseConnection(connection);
     }
 
     public Connection getConnection() {

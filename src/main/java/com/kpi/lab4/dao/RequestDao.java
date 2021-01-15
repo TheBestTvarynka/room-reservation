@@ -11,11 +11,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class RequestDao extends GeneralDao {
+    public RequestDao(Connection connection) {
+        this.connection = connection;
+    }
+
     public void save(CreateRequestDto createDto) throws SQLException {
-        setConnection(ConnectionPool.getConnection());
         final String addNewRequest = "insert into requests values (?, ?, ?, ?, ?, ?)";
-        Connection connection = getConnection();
-        PreparedStatement statement = connection.prepareStatement(addNewRequest);
+        PreparedStatement statement = this.connection.prepareStatement(addNewRequest);
         statement.setObject(1, UUID.randomUUID(), java.sql.Types.OTHER);
         statement.setInt(2, createDto.getSeatNumber());
         statement.setString(3, createDto.getType().name());
@@ -26,10 +28,9 @@ public class RequestDao extends GeneralDao {
     }
 
     public List<Request> getAll() throws SQLException, IllegalArgumentException {
-        setConnection(ConnectionPool.getConnection());
         final String selectAllRequests = "select * from requests";
         List<Request> requests = new ArrayList<>();
-        Statement statement = getConnection().createStatement();
+        Statement statement = this.connection.createStatement();
         ResultSet res = statement.executeQuery(selectAllRequests);
         while (res.next()) {
             requests.add(new Request(
@@ -45,9 +46,8 @@ public class RequestDao extends GeneralDao {
     }
 
     public Optional<Request> getById(UUID id) throws SQLException {
-        setConnection(ConnectionPool.getConnection());
         final String selectRequestById = "select * from requests where id=?";
-        PreparedStatement statement = getConnection().prepareStatement(selectRequestById);
+        PreparedStatement statement = this.connection.prepareStatement(selectRequestById);
         statement.setObject(1, id, java.sql.Types.OTHER);
         ResultSet res = statement.executeQuery();
         Request request = null;
@@ -65,9 +65,8 @@ public class RequestDao extends GeneralDao {
     }
 
     public void deleteRequest(UUID id) throws SQLException {
-        setConnection(ConnectionPool.getConnection());
         final String deleteRequest = "delete from requests where id=?";
-        PreparedStatement statement = getConnection().prepareStatement(deleteRequest);
+        PreparedStatement statement = this.connection.prepareStatement(deleteRequest);
         statement.setObject(1, id, java.sql.Types.OTHER);
         statement.execute();
     }

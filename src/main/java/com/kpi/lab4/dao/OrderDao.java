@@ -9,12 +9,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class OrderDao extends GeneralDao {
+    public OrderDao(Connection connection) {
+        this.connection = connection;
+    }
+
     public UUID createOrder(CreateOrderDto createDto) throws SQLException {
-        setConnection(ConnectionPool.getConnection());
         final String addNewOrder = "insert into orders values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         UUID id = UUID.randomUUID();
-        Connection connection = getConnection();
-        PreparedStatement pstmt = connection.prepareStatement(addNewOrder);
+        PreparedStatement pstmt = this.connection.prepareStatement(addNewOrder);
         pstmt.setObject(1, id, java.sql.Types.OTHER);
         pstmt.setDate(2, new Date(new java.util.Date().getTime()));
         pstmt.setFloat(3, createDto.getRoom().getPrice());
@@ -29,9 +31,8 @@ public class OrderDao extends GeneralDao {
     }
 
     public Optional<Order> findById(UUID id) throws SQLException {
-        setConnection(ConnectionPool.getConnection());
         final String selectOrderById = "select * from orders where id=?";
-        PreparedStatement statement = getConnection().prepareStatement(selectOrderById);
+        PreparedStatement statement = this.connection.prepareStatement(selectOrderById);
         statement.setObject(1, id, java.sql.Types.OTHER);
         ResultSet res = statement.executeQuery();
         Order order = null;
@@ -51,9 +52,8 @@ public class OrderDao extends GeneralDao {
     }
 
     public void deleteById(UUID id) throws SQLException {
-        setConnection(ConnectionPool.getConnection());
         final String deleteOrderById = "delete from orders where id=?";
-        PreparedStatement statement = getConnection().prepareStatement(deleteOrderById);
+        PreparedStatement statement = this.connection.prepareStatement(deleteOrderById);
         statement.setObject(1, id, java.sql.Types.OTHER);
         statement.execute();
     }

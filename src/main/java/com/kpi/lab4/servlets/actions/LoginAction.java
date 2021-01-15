@@ -48,5 +48,6 @@ public class LoginAction implements Action {
             request.setAttribute("error", "Incorrect username or password.");
             request.getRequestDispatcher("/jsp/login.jsp").forward(request, response);
         }
+        service.finish();
     }
 }

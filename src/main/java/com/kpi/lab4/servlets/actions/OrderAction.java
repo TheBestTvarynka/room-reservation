@@ -42,6 +42,6 @@ public class OrderAction implements Action {
             request.setAttribute("error", "Wrong parameters for order!");
         }
         request.getRequestDispatcher("/jsp/order.jsp").forward(request, response);
-        request.getRequestDispatcher("/jsp/order.jsp").forward(request, response);
+        service.finish();
     }
 }

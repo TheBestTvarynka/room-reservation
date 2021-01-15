@@ -1,25 +1,31 @@
 package com.kpi.lab4.services;
 
-import com.kpi.lab4.dao.OrderDao;
-import com.kpi.lab4.dao.RequestDao;
-import com.kpi.lab4.dao.RoomDao;
-import com.kpi.lab4.dao.UserDao;
+import com.kpi.lab4.dao.DaoFactory;
+
+import java.sql.SQLException;
 
 public class ServiceFactoryImpl extends ServiceFactory {
 
     @Override
-    public UserService createUserService() {
-        return new UserService(new UserDao());
+    public UserService createUserService() throws SQLException {
+        return new UserService(DaoFactory.createUserDao());
     }
 
     @Override
-    public OrderService createOrderService() {
-        return new OrderService(new OrderDao(), new RoomDao());
+    public OrderService createOrderService() throws SQLException {
+        return new OrderService(
+                DaoFactory.createOrderDao(),
+                DaoFactory.createRoomDao()
+        );
     }
 
     @Override
-    public RequestService createRequestService() {
-        return new RequestService(new RequestDao(), new RoomDao(), new OrderDao());
+    public RequestService createRequestService() throws SQLException {
+        return new RequestService(
+                DaoFactory.createRequestDao(),
+                DaoFactory.createRoomDao(),
+                DaoFactory.createOrderDao()
+        );
     }
 
 }

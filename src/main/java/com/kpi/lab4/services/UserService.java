@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class UserService {
+public class UserService implements Service {
     private static Logger logger = LogManager.getLogger(UserService.class);
     private final UserDao repository;
 
@@ -45,5 +45,10 @@ public class UserService {
             logger.error("SQLException: " + e.getMessage());
             throw new UnavailableException();
         }
+    }
+
+    @Override
+    public void finish() {
+        repository.releaseConnection();
     }
 }

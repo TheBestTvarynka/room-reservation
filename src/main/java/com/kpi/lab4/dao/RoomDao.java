@@ -9,8 +9,10 @@ import java.sql.*;
 import java.util.*;
 
 public class RoomDao extends GeneralDao {
+    public RoomDao(Connection connection) {
+        this.connection = connection;
+    }
     public List<Room> selectRooms(SelectRoomOptions options) throws SQLException {
-        setConnection(ConnectionPool.getConnection());
         StringBuilder queryBuilder = new StringBuilder("select * from rooms");
         Set<RoomType> types = options.getTypes();
         Set<RoomStatus> statuses = options.getStatuses();
@@ -47,7 +49,7 @@ public class RoomDao extends GeneralDao {
             }
         }
         System.out.println(queryBuilder.toString());
-        Statement statement = getConnection().createStatement();
+        Statement statement = this.connection.createStatement();
         ResultSet res = statement.executeQuery(queryBuilder.toString());
         List<Room> rooms = new ArrayList<>();
         while (res.next()) {
@@ -64,10 +66,8 @@ public class RoomDao extends GeneralDao {
     }
 
     public Optional<Room> findByRoomNumber(String roomNumber) throws SQLException, IllegalArgumentException {
-        setConnection(ConnectionPool.getConnection());
         final String findByNumber = "select * from rooms where number=?";
-        Connection connection = getConnection();
-        PreparedStatement pstmt = connection.prepareStatement(findByNumber);
+        PreparedStatement pstmt = this.connection.prepareStatement(findByNumber);
         pstmt.setString(1, roomNumber);
         ResultSet res = pstmt.executeQuery();
         Room room = null;
@@ -85,10 +85,8 @@ public class RoomDao extends GeneralDao {
     }
 
     public void updateStatus(UUID roomId, RoomStatus status) throws SQLException {
-        setConnection(ConnectionPool.getConnection());
         final String updateStatus = "update rooms set status=? where id=?";
-        Connection connection = getConnection();
-        PreparedStatement statement = connection.prepareStatement(updateStatus);
+        PreparedStatement statement = this.connection.prepareStatement(updateStatus);
         statement.setString(1, status.name());
         statement.setObject(2, roomId, Types.OTHER);
         statement.executeUpdate();

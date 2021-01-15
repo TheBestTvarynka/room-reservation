@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
-public class OrderService {
+public class OrderService implements Service {
     private static Logger logger = LogManager.getLogger(OrderService.class);
 
     private OrderDao orderRepository;
@@ -50,6 +50,16 @@ public class OrderService {
         Date date = new Date();
         // 2 * 24 * 60 * 60 * 1000 = 172_800_000 = 2 days
         date.setTime(date.getTime() + 172_800_000L);
-        Scheduler.scheduleJob(new DeleteOrderJob(id), date);
+        try {
+            Scheduler.scheduleJob(new DeleteOrderJob(id), date);
+        } catch (SQLException e) {
+            logger.error("Can't schedule a job. Cause: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void finish() {
+        orderRepository.releaseConnection();
+        roomRepository.releaseConnection();
     }
 }

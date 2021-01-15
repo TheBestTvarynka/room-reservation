@@ -8,12 +8,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class UserDao extends GeneralDao {
+    public UserDao(Connection connection) {
+        this.connection = connection;
+    }
+
     public Optional<User> findByUsername(String username) throws SQLException {
-        setConnection(ConnectionPool.getConnection());
         final String findByUsername = "select * from users where username=?";
-        Connection connection = getConnection();
         User user = null;
-        PreparedStatement pstmt = connection.prepareStatement(findByUsername);
+        PreparedStatement pstmt = this.connection.prepareStatement(findByUsername);
         pstmt.setString(1, username);
         ResultSet res = pstmt.executeQuery();
         if (res.next()) {
@@ -30,18 +32,16 @@ public class UserDao extends GeneralDao {
     }
 
     public void save(User user) throws SQLException {
-        setConnection(ConnectionPool.getConnection());
         final String addNewUser = "insert into users (id, username, password, full_name, email, role) values (?, ?, ?, ?, ?, ?)";
         final String updateUser = "update users set id=?, username=?, password=?, full_name=?, email=? where id=?";
-        Connection connection = getConnection();
-        PreparedStatement pstmt = null;
+        PreparedStatement pstmt;
         if (user.getId() == null) {
             // create
             user.setId(UUID.randomUUID());
-            pstmt = connection.prepareStatement(addNewUser);
+            pstmt = this.connection.prepareStatement(addNewUser);
         } else {
             // update
-            pstmt = connection.prepareStatement(updateUser);
+            pstmt = this.connection.prepareStatement(updateUser);
             pstmt.setString(6, user.getId().toString());
         }
         pstmt.setObject(1, user.getId(), java.sql.Types.OTHER);
@@ -52,5 +52,4 @@ public class UserDao extends GeneralDao {
         pstmt.setString(6, user.getUserType().name());
         pstmt.execute();
     }
-
 }
