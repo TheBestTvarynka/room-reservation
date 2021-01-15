@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class UserDao extends GeneralDao {
     public Optional<User> findByUsername(String username) throws SQLException {
-        setConnection(SimpleConnectionPool.getPool().getConnection());
+        setConnection(ConnectionPool.getConnection());
         final String findByUsername = "select * from users where username=?";
         Connection connection = getConnection();
         User user = null;
@@ -26,12 +26,11 @@ public class UserDao extends GeneralDao {
                     UserType.valueOf(res.getString("role"))
             );
         }
-        SimpleConnectionPool.getPool().releaseConnection(getConnection());
         return user == null ? Optional.empty() : Optional.of(user);
     }
 
     public void save(User user) throws SQLException {
-        setConnection(SimpleConnectionPool.getPool().getConnection());
+        setConnection(ConnectionPool.getConnection());
         final String addNewUser = "insert into users (id, username, password, full_name, email, role) values (?, ?, ?, ?, ?, ?)";
         final String updateUser = "update users set id=?, username=?, password=?, full_name=?, email=? where id=?";
         Connection connection = getConnection();
@@ -52,7 +51,6 @@ public class UserDao extends GeneralDao {
         pstmt.setString(5, user.getEmail());
         pstmt.setString(6, user.getUserType().name());
         pstmt.execute();
-        SimpleConnectionPool.getPool().releaseConnection(getConnection());
     }
 
 }

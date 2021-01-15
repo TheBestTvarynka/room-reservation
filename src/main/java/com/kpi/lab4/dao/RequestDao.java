@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class RequestDao extends GeneralDao {
     public void save(CreateRequestDto createDto) throws SQLException {
-        setConnection(SimpleConnectionPool.getPool().getConnection());
+        setConnection(ConnectionPool.getConnection());
         final String addNewRequest = "insert into requests values (?, ?, ?, ?, ?, ?)";
         Connection connection = getConnection();
         PreparedStatement statement = connection.prepareStatement(addNewRequest);
@@ -23,11 +23,10 @@ public class RequestDao extends GeneralDao {
         statement.setDate(5, new Date(createDto.getDateTo().getTime()));
         statement.setString(6, createDto.getPhone());
         statement.execute();
-        SimpleConnectionPool.getPool().releaseConnection(getConnection());
     }
 
     public List<Request> getAll() throws SQLException, IllegalArgumentException {
-        setConnection(SimpleConnectionPool.getPool().getConnection());
+        setConnection(ConnectionPool.getConnection());
         final String selectAllRequests = "select * from requests";
         List<Request> requests = new ArrayList<>();
         Statement statement = getConnection().createStatement();
@@ -42,12 +41,11 @@ public class RequestDao extends GeneralDao {
                     res.getString("phone")
             ));
         }
-        SimpleConnectionPool.getPool().releaseConnection(getConnection());
         return requests;
     }
 
     public Optional<Request> getById(UUID id) throws SQLException {
-        setConnection(SimpleConnectionPool.getPool().getConnection());
+        setConnection(ConnectionPool.getConnection());
         final String selectRequestById = "select * from requests where id=?";
         PreparedStatement statement = getConnection().prepareStatement(selectRequestById);
         statement.setObject(1, id, java.sql.Types.OTHER);
@@ -63,16 +61,14 @@ public class RequestDao extends GeneralDao {
                     res.getString("phone")
             );
         }
-        SimpleConnectionPool.getPool().releaseConnection(getConnection());
         return request == null ? Optional.empty() : Optional.of(request);
     }
 
     public void deleteRequest(UUID id) throws SQLException {
-        setConnection(SimpleConnectionPool.getPool().getConnection());
+        setConnection(ConnectionPool.getConnection());
         final String deleteRequest = "delete from requests where id=?";
         PreparedStatement statement = getConnection().prepareStatement(deleteRequest);
         statement.setObject(1, id, java.sql.Types.OTHER);
         statement.execute();
-        SimpleConnectionPool.getPool().releaseConnection(getConnection());
     }
 }

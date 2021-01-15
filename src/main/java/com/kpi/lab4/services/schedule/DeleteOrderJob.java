@@ -5,7 +5,7 @@ import com.kpi.lab4.dao.RoomDao;
 import com.kpi.lab4.entities.Order;
 import com.kpi.lab4.entities.Room;
 import com.kpi.lab4.enums.RoomStatus;
-import com.kpi.lab4.dao.SimpleConnectionPool;
+import com.kpi.lab4.dao.ConnectionPool;
 
 import java.sql.SQLException;
 import java.util.Optional;
@@ -26,8 +26,8 @@ public class DeleteOrderJob extends TimerTask {
     @Override
     public void run() {
         try {
-            orderRepository.setConnection(SimpleConnectionPool.getPool().getConnection());
-            roomRepository.setConnection(SimpleConnectionPool.getPool().getConnection());
+            orderRepository.setConnection(ConnectionPool.getConnection());
+            roomRepository.setConnection(ConnectionPool.getConnection());
             Optional<Order> order = orderRepository.findById(orderId);
             if (order.isEmpty()) return;
             Order orderData = order.get();
@@ -36,8 +36,8 @@ public class DeleteOrderJob extends TimerTask {
                 roomRepository.updateStatus(room.getId(), RoomStatus.AVAILABLE);
                 orderRepository.deleteById(orderId);
             }
-            SimpleConnectionPool.getPool().releaseConnection(orderRepository.releaseConnection());
-            SimpleConnectionPool.getPool().releaseConnection(roomRepository.releaseConnection());
+//            SimpleConnectionPool.getPool().releaseConnection(orderRepository.releaseConnection());
+//            SimpleConnectionPool.getPool().releaseConnection(roomRepository.releaseConnection());
         } catch (SQLException ignored) {
 
         }
