@@ -4,7 +4,6 @@
 <head>
     <title>Request</title>
     <link href="<c:url value="/css/forms.css" />" rel="stylesheet">
-    <link href="<c:url value="/css/header.css" />" rel="stylesheet">
 </head>
 <style>
     a {
@@ -61,65 +60,53 @@
     }
 </style>
 <body>
-<div class="header">
-    <div>
-        <a href="${pageContext.request.contextPath}/browse" class="header_button">Browse</a>
-        <a href="${pageContext.request.contextPath}/request" class="header_button">Make request</a>
-        <a href="${pageContext.request.contextPath}/order" class="header_button">Make order</a>
+    <c:import url="header.jsp" />
+    <div class="page">
+        <form method="post" action="${pageContext.request.contextPath}/request" name="request">
+            <span class="error_message">${requestScope.get('error')}</span>
+            <span class="info_message">${requestScope.get('message')}</span>
+            <span class="title">Create new request</span>
+
+            <label>Phone</label>
+            <input type="text" name="phone" id="phone" placeholder="e. g. 0987654321" class="input" oninput="checkAll(request)">
+
+            <label>Enter room type</label>
+            <input type="text" name="type" id="type" placeholder="e. g. LUX" class="input" required>
+
+            <label>Enter seat number</label>
+            <input type="number" name="seatNumber" id="seatNumber" placeholder="seat number" class="input" min="1" required>
+
+            <label>Enter from date</label>
+            <input type="date" name="dateFrom" id="dateFrom" class="input" required>
+
+            <label>Enter to date</label>
+            <input type="date" name="dateTo" id="dateTo" class="input" required>
+
+            <button type="submit" id="submit" class="button">Submit</button>
+        </form>
     </div>
-    <div class="block">
-        <span>${sessionScope.get('username')}</span>
-        <a href="${pageContext.request.contextPath}/logout">
-            <img src="https://img.icons8.com/android/24/ffffff/logout-rounded.png" alt="LogOut"/>
-        </a>
-    </div>
-</div>
-<div class="page">
-    <form method="post" action="${pageContext.request.contextPath}/request" name="request">
-        <span class="error_message">${requestScope.get('error')}</span>
-        <span class="info_message">${requestScope.get('message')}</span>
-        <span class="title">Create new request</span>
-
-        <label>Phone</label>
-        <input type="text" name="phone" id="phone" placeholder="e. g. 0987654321" class="input" oninput="checkAll(request)">
-
-        <label>Enter room type</label>
-        <input type="text" name="type" id="type" placeholder="e. g. LUX" class="input" required>
-
-        <label>Enter seat number</label>
-        <input type="number" name="seatNumber" id="seatNumber" placeholder="seat number" class="input" min="1" required>
-
-        <label>Enter from date</label>
-        <input type="date" name="dateFrom" id="dateFrom" class="input" required>
-
-        <label>Enter to date</label>
-        <input type="date" name="dateTo" id="dateTo" class="input" required>
-
-        <button type="submit" id="submit" class="button">Submit</button>
-    </form>
-</div>
-<script>
-    const checkPhone = form => {
-        const re_phone = /^\d{10}$/;
-        const input = document.getElementById('phone');
-        if (re_phone.test(form.phone.value)) {
-            input.setAttribute('class', 'input');
-            return true;
-        } else {
-            input.setAttribute('class', 'input_error');
-            return false;
-        }
-    };
-    const checkAll = form => {
-        const submitButton = document.getElementById('submit');
-        if(checkPhone(form)) {
-            console.log('true');
-            submitButton.removeAttribute('disabled');
-        } else {
-            console.log('false');
-            submitButton.setAttribute('disabled', 'true');
-        }
-    };
-</script>
+    <script>
+        const checkPhone = form => {
+            const re_phone = /^\d{10}$/;
+            const input = document.getElementById('phone');
+            if (re_phone.test(form.phone.value)) {
+                input.setAttribute('class', 'input');
+                return true;
+            } else {
+                input.setAttribute('class', 'input_error');
+                return false;
+            }
+        };
+        const checkAll = form => {
+            const submitButton = document.getElementById('submit');
+            if(checkPhone(form)) {
+                console.log('true');
+                submitButton.removeAttribute('disabled');
+            } else {
+                console.log('false');
+                submitButton.setAttribute('disabled', 'true');
+            }
+        };
+    </script>
 </body>
 </html>

@@ -8,7 +8,6 @@
     <title>Browse</title>
     <link href="<c:url value="/css/forms.css" />" rel="stylesheet">
     <link href="<c:url value="/css/pagination.css" />" rel="stylesheet">
-    <link href="<c:url value="/css/header.css" />" rel="stylesheet">
     <link href="<c:url value="/css/browse_page_styles.css" />" rel="stylesheet">
 </head>
 <style>
@@ -26,19 +25,7 @@
     }
 </style>
 <body>
-    <div class="header">
-        <div>
-            <a href="${pageContext.request.contextPath}/browse" class="header_button">Browse</a>
-            <a href="${pageContext.request.contextPath}/request" class="header_button">Make request</a>
-            <a href="${pageContext.request.contextPath}/order" class="header_button">Make order</a>
-        </div>
-        <div class="block">
-            <span>${sessionScope.get('username')}</span>
-            <a href="${pageContext.request.contextPath}/logout">
-                <img src="https://img.icons8.com/android/24/ffffff/logout-rounded.png" alt="LogOut"/>
-            </a>
-        </div>
-    </div>
+    <c:import url="header.jsp" />
     <div class="page">
         <div class="content">
             <form class="search">
