@@ -185,42 +185,25 @@
                 </c:choose>
             </div>
             <div class="pagination">
-                <%
-                    Page<Room> pageData = (Page<Room>)request.getAttribute("page");
-                    int pages = 1;
-                    int pageN = 1;
-                    String query = "";
-                    if (pageData != null) {
-                        pages = (int) Math.ceil((pageData.getCount() + 0.0) / pageData.getOffset());
-                        pageN = pageData.getPage();
-                        query = request.getQueryString();
-                        if (query != null) {
-                            int pageIndex = query.indexOf("page=");
-                            if (pageIndex != -1) {
-                                query = query.substring(0, pageIndex + 5);
-                            } else {
-                                query += "&page=";
-                            }
-                        } else {
-                            query = "page=";
-                        }
-                    }
-                %>
-                <%if (pageN != 1) {%>
-                <a class="pag_item" href=<%="${pageContext.request.contextPath}/browse?" + query + (pageN - 1)%>>&lt;</a>
-                <%}%>
-                <%for (int i = 1; i < pageN; i++) {%>
-                <a class="pag_item" href=<%="/Gradle___com_kpi___4_lab_1_0_SNAPSHOT_war/browse?" + query + i%>><%=i%></a>
-                <%}%>
-                <span class="pag_item selected"><%=pageN%></span>
-                <%for (int i = pageN + 1; i <= pages; i++) {%>
-                <a class="pag_item" href=<%="/Gradle___com_kpi___4_lab_1_0_SNAPSHOT_war/browse?" + query + i%>><%=i%></a>
-                <%}%>
-                <%if (pageN != pages) {%>
-                <a class="pag_item" href=<%="/Gradle___com_kpi___4_lab_1_0_SNAPSHOT_war/browse?" + query + (pageN + 1)%>>&gt;</a>
-                <%}
-                request.getServletContext().removeAttribute("page");
-                %>
+                <jsp:useBean id="queryFormatter" class="com.kpi.lab4.utils.QueryParametersFormatter" scope="request">
+                    <jsp:setProperty name="queryFormatter" property="parameters" value="${paramValues}" />
+                </jsp:useBean>
+                <c:if test="${requestScope.page.page > 1}">
+                    <a class="pag_item" href="${pageContext.request.contextPath}/browse${queryFormatter.getFormattedQuery("page", requestScope.page.page - 1)}">&lt;</a>
+                </c:if>
+                <c:forEach var="p" varStatus="status" begin="1" end="${requestScope.pages}" step="1">
+                    <c:choose>
+                        <c:when test="${status.count == requestScope.page.page}">
+                            <a class="pag_item selected" href="${pageContext.request.contextPath}/browse${queryFormatter.getFormattedQuery("page", status.count.toString())}">${status.count}</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a class="pag_item" href="${pageContext.request.contextPath}/browse${queryFormatter.getFormattedQuery("page", status.count.toString())}">${status.count}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+                <c:if test="${requestScope.page.page < requestScope.pages}">
+                    <a class="pag_item" href="${pageContext.request.contextPath}/browse${queryFormatter.getFormattedQuery("page", requestScope.page.page + 1)}">&gt;</a>
+                </c:if>
             </div>
         </div>
     </div>

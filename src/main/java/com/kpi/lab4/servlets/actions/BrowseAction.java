@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Map;
 
 public class BrowseAction implements Action {
     private RequestService service;
@@ -34,6 +35,8 @@ public class BrowseAction implements Action {
             }
             Page<Room> page = service.selectRooms(options);
             request.setAttribute("page", page);
+            Integer pages = (int) Math.ceil((page.getCount() + 0.0) / page.getOffset());
+            request.setAttribute("pages", pages);
         } catch (IllegalArgumentException | UnavailableException e) {
             request.setAttribute("error", e.getMessage());
         }
