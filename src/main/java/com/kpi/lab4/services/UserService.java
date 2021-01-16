@@ -8,6 +8,7 @@ import com.kpi.lab4.exception.UnavailableException;
 import com.kpi.lab4.exception.UserAlreadyExistException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.SQLException;
 import java.util.Optional;
@@ -28,8 +29,7 @@ public class UserService implements Service {
             logger.error("SQLException: " + e.getMessage());
             throw new UnavailableException();
         }
-
-        if (user.isPresent() && user.get().getPassword().equals(credentials.getPassword())) {
+        if (user.isPresent() && BCrypt.checkpw(credentials.getPassword(), user.get().getPassword())) {
             return user.get();
         }
         return null;
@@ -40,6 +40,7 @@ public class UserService implements Service {
             if (repository.findByUsername(registerData.getUsername()).isPresent()) {
                 throw new UserAlreadyExistException();
             }
+            registerData.setPassword(BCrypt.hashpw(registerData.getPassword(), BCrypt.gensalt()));
             repository.save(User.fromRegisterData(registerData));
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage());
