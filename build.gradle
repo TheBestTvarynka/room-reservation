@@ -16,6 +16,7 @@ dependencies {
     compile 'javax.servlet:javax.servlet-api:3.1.0'
     compile 'javax.servlet:jstl:1.2'
     compile 'com.zaxxer:HikariCP:3.4.5'
+    compile 'com.google.cloud.sql:postgres-socket-factory:1.2.0'
     implementation 'org.mindrot:jbcrypt:0.4'
     runtimeOnly 'org.postgresql:postgresql:42.2.0'
     compileOnly 'org.projectlombok:lombok:1.18.16'
