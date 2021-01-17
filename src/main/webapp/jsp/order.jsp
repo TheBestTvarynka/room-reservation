@@ -4,6 +4,7 @@
 <head>
     <title>Order</title>
     <link href="<c:url value="/css/forms.css" />" rel="stylesheet">
+    <link rel="icon" type="image/ico" href="<c:url value="/img/main_icon.ico" />"/>
 </head>
 <style>
     a {
@@ -40,17 +41,6 @@
         color: #36333a;
         font-size: 15px;
         margin-top: 0.5em;
-    }
-    .input_error {
-        font-size: 15px;
-        background: #eb624d;
-        border: none;
-        border-bottom: 3px solid #eb624d;
-        border-radius: 5px;
-        padding: 12px 20px;
-    }
-    .input_error:focus {
-        border-bottom: 3px solid red;
     }
     .title {
         width: 100%;

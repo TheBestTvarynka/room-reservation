@@ -4,6 +4,7 @@
 <head>
     <title>Not found</title>
     <link href="<c:url value="/css/404.css" />" rel="stylesheet">
+    <link rel="icon" type="image/ico" href="<c:url value="/img/main_icon.ico" />"/>
 </head>
 <body>
     <div class="container">

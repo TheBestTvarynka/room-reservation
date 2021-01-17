@@ -4,6 +4,7 @@
 <head>
     <title>Register</title>
     <link href="<c:url value="/css/forms.css" />" rel="stylesheet">
+    <link rel="icon" type="image/ico" href="<c:url value="/img/main_icon.ico" />"/>
 </head>
 <style>
     body {

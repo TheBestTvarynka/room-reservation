@@ -4,6 +4,7 @@
 <head>
     <title>Server Error</title>
     <link href="<c:url value="/css/500.css" />" rel="stylesheet">
+    <link rel="icon" type="image/ico" href="<c:url value="/img/main_icon.ico" />"/>
 </head>
 <body>
     <div class="container">

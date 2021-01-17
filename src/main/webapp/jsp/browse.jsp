@@ -1,5 +1,3 @@
-<%@ page import="com.kpi.lab4.entities.Room" %>
-<%@ page import="com.kpi.lab4.dto.Page" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -9,6 +7,7 @@
     <link href="<c:url value="/css/forms.css" />" rel="stylesheet">
     <link href="<c:url value="/css/pagination.css" />" rel="stylesheet">
     <link href="<c:url value="/css/browse_page_styles.css" />" rel="stylesheet">
+    <link rel="icon" type="image/ico" href="<c:url value="/img/main_icon.ico" />"/>
 </head>
 <style>
     a {

@@ -3,6 +3,7 @@
 <html>
 <head>
     <title>Home</title>
+    <link rel="icon" type="image/ico" href="<c:url value="/img/main_icon.ico" />"/>
 </head>
 <body>
     <c:import url="header.jsp" />
