@@ -8,13 +8,13 @@ import com.kpi.lab4.enums.RoomStatus;
 import com.kpi.lab4.exception.AlreadyBookedException;
 import com.kpi.lab4.exception.BookNotFoundException;
 import com.kpi.lab4.exception.UnavailableException;
-import com.kpi.lab4.services.schedule.DeleteOrderJob;
-import com.kpi.lab4.services.schedule.Scheduler;
+//import com.kpi.lab4.services.schedule.DeleteOrderJob;
+//import com.kpi.lab4.services.schedule.Scheduler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
-import java.util.Date;
+//import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -46,15 +46,14 @@ public class OrderService implements Service {
             logger.error("SQLException: " + e.getMessage());
             throw new UnavailableException();
         }
-
-        Date date = new Date();
+//        Date date = new Date();
         // 2 * 24 * 60 * 60 * 1000 = 172_800_000 = 2 days
-        date.setTime(date.getTime() + 172_800_000L);
-        try {
-            Scheduler.scheduleJob(new DeleteOrderJob(id), date);
-        } catch (SQLException e) {
-            logger.error("Can't schedule a job. Cause: " + e.getMessage());
-        }
+//        date.setTime(date.getTime() + 172_800_000L);
+//        try {
+//            Scheduler.scheduleJob(new DeleteOrderJob(id), date);
+//        } catch (SQLException e) {
+//            logger.error("Can't schedule a job. Cause: " + e.getMessage());
+//        }
     }
 
     @Override
