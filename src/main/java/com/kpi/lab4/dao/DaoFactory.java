@@ -18,4 +18,8 @@ public class DaoFactory {
     public static RoomDao createRoomDao() throws SQLException {
         return new RoomDao(ConnectionPool.getConnection());
     }
+
+    public static SessionDao createSessionDao() throws SQLException {
+        return new SessionDao(ConnectionPool.getConnection());
+    }
 }

@@ -48,3 +48,5 @@ create table sessions (
 );
 
 alter table sessions add constraint f1 foreign key (user_id) references users(id);
+
+alter table sessions add column username varchar(255);

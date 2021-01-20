@@ -28,4 +28,8 @@ public class ServiceFactoryImpl extends ServiceFactory {
         );
     }
 
+    @Override
+    public SessionService createSessionService() throws SQLException {
+        return new SessionService(DaoFactory.createSessionDao());
+    }
 }
