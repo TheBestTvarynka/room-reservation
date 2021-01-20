@@ -15,16 +15,16 @@ import java.util.Optional;
 
 public class UserService implements Service {
     private static Logger logger = LogManager.getLogger(UserService.class);
-    private final UserDao repository;
+    private final UserDao userDao;
 
     public UserService(UserDao userDao) {
-        repository = userDao;
+        this.userDao = userDao;
     }
 
     public User login(LoginDto credentials) throws UnavailableException {
         Optional<User> user;
         try {
-            user = repository.findByUsername(credentials.getUsername());
+            user = userDao.findByUsername(credentials.getUsername());
         } catch(SQLException e) {
             logger.error("SQLException: " + e.getMessage());
             throw new UnavailableException();
@@ -37,11 +37,11 @@ public class UserService implements Service {
 
     public void register(RegisterDto registerData) throws UnavailableException {
         try {
-            if (repository.findByUsername(registerData.getUsername()).isPresent()) {
+            if (userDao.findByUsername(registerData.getUsername()).isPresent()) {
                 throw new UserAlreadyExistException();
             }
             registerData.setPassword(BCrypt.hashpw(registerData.getPassword(), BCrypt.gensalt()));
-            repository.save(User.fromRegisterData(registerData));
+            userDao.save(User.fromRegisterData(registerData));
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage());
             throw new UnavailableException();
@@ -50,6 +50,6 @@ public class UserService implements Service {
 
     @Override
     public void finish() {
-        repository.releaseConnection();
+        userDao.releaseConnection();
     }
 }

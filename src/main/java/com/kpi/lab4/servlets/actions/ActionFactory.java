@@ -14,7 +14,7 @@ public class ActionFactory {
             case "/register":
                 return new RegisterAction(serviceFactory.createUserService());
             case "/login":
-                return new LoginAction(serviceFactory.createUserService());
+                return new LoginAction(serviceFactory.createUserService(), serviceFactory.createSessionService());
             case "/browse":
                 return new BrowseAction(serviceFactory.createRequestService());
             case "/request":
