@@ -6,8 +6,10 @@ import com.kpi.lab4.entities.User;
 import com.kpi.lab4.exception.UnavailableException;
 import com.kpi.lab4.services.SessionService;
 import com.kpi.lab4.services.UserService;
+import com.kpi.lab4.servlets.security.TokenGenerator;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,10 +18,12 @@ import java.io.IOException;
 public class LoginAction implements Action {
     private final UserService userService;
     private final SessionService sessionService;
+    private final TokenGenerator tokenGenerator;
 
-    public LoginAction(UserService userService, SessionService sessionService) {
+    public LoginAction(UserService userService, SessionService sessionService, TokenGenerator tokenGenerator) {
         this.userService = userService;
         this.sessionService = sessionService;
+        this.tokenGenerator = tokenGenerator;
     }
 
     @Override
@@ -35,10 +39,12 @@ public class LoginAction implements Action {
                     request.getParameter("password")
             ));
             if (user != null) {
+                String csrfToken = tokenGenerator.generateToken();
                 HttpSession session = request.getSession(true);
                 session.setAttribute("user_id", user.getId());
                 session.setAttribute("username", user.getUsername());
                 session.setAttribute("role", user.getUserType());
+                session.setAttribute("csrf-token", csrfToken);
                 // 60 * 60 = 3_600 = 1 hour
                 session.setMaxInactiveInterval(3_600);
                 sessionService.saveSession(new SessionDto(
@@ -47,6 +53,8 @@ public class LoginAction implements Action {
                         user.getUserType(),
                         user.getUsername()
                 ));
+                Cookie csrfCookie = new Cookie("XSRF-TOKEN", csrfToken);
+                response.addCookie(csrfCookie);
                 response.sendRedirect(request.getContextPath() + "/request");
             } else {
                 request.setAttribute("error", "Incorrect username or password.");
