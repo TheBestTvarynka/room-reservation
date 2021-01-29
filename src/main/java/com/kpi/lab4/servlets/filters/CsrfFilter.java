@@ -1,5 +1,8 @@
 package com.kpi.lab4.servlets.filters;
 
+import com.kpi.lab4.services.ServiceFactory;
+import com.kpi.lab4.services.SessionService;
+import lombok.SneakyThrows;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -8,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Arrays;
 
 public class CsrfFilter implements Filter {
@@ -16,6 +20,7 @@ public class CsrfFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException { }
 
+    @SneakyThrows
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
@@ -41,8 +46,12 @@ public class CsrfFilter implements Filter {
         chain.doFilter(request, response);
     }
 
-    private void fail(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        request.getSession(false).invalidate();
+    private void fail(HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
+        HttpSession session = request.getSession();
+        SessionService sessionService = ServiceFactory.getInstance().createSessionService();
+        sessionService.delete(session.getId());
+        sessionService.finish();
+        session.invalidate();
         response.sendRedirect("/login");
     }
 

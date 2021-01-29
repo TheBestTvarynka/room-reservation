@@ -11,13 +11,15 @@ public class Session {
     private UserType role;
     private LocalDateTime validUntil;
     private String username;
+    private String csrfToken;
 
-    public Session(String sessionId, UUID userId, UserType role, LocalDateTime validUntil, String username) {
+    public Session(String sessionId, UUID userId, UserType role, LocalDateTime validUntil, String username, String csrfToken) {
         this.sessionId = sessionId;
         this.userId = userId;
         this.role = role;
         this.validUntil = validUntil;
         this.username = username;
+        this.csrfToken = csrfToken;
     }
 
     public String getUsername() {
@@ -42,6 +44,14 @@ public class Session {
 
     public UserType getRole() {
         return role;
+    }
+
+    public String getCsrfToken() {
+        return csrfToken;
+    }
+
+    public void setCsrfToken(String csrfToken) {
+        this.csrfToken = csrfToken;
     }
 
     public void setSessionId(String sessionId) {

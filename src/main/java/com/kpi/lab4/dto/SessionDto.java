@@ -3,7 +3,6 @@ package com.kpi.lab4.dto;
 import com.kpi.lab4.enums.UserType;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.UUID;
 
 public class SessionDto {
@@ -12,12 +11,22 @@ public class SessionDto {
     private LocalDateTime validUntil;
     private UserType role;
     private String username;
+    private String csrfToken;
 
-    public SessionDto(String sessionId, UUID userId, UserType role, String username) {
+    public SessionDto(String sessionId, UUID userId, UserType role, String username, String csrfToken) {
         this.sessionId = sessionId;
         this.userId = userId;
         this.role = role;
         this.username = username;
+        this.csrfToken = csrfToken;
+    }
+
+    public String getCsrfToken() {
+        return csrfToken;
+    }
+
+    public void setCsrfToken(String csrfToken) {
+        this.csrfToken = csrfToken;
     }
 
     public String getUsername() {

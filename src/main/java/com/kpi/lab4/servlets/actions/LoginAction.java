@@ -9,7 +9,6 @@ import com.kpi.lab4.services.UserService;
 import com.kpi.lab4.servlets.security.TokenGenerator;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -51,10 +50,9 @@ public class LoginAction implements Action {
                         session.getId(),
                         user.getId(),
                         user.getUserType(),
-                        user.getUsername()
+                        user.getUsername(),
+                        csrfToken
                 ));
-//                Cookie csrfCookie = new Cookie("XSRF-TOKEN", csrfToken);
-//                response.addCookie(csrfCookie);
                 response.sendRedirect(request.getContextPath() + "/request");
             } else {
                 request.setAttribute("error", "Incorrect username or password.");

@@ -59,6 +59,7 @@ public class SessionFilter implements Filter {
     private void checkDatabaseSession(String sessionId, HttpServletRequest req, HttpServletResponse res, FilterChain chain)
             throws IOException, SQLException, ServletException {
         SessionService sessionService = ServiceFactory.getInstance().createSessionService();
+        System.out.println();
         Optional<Session> session = sessionService.findById(sessionId);
         if (session.isPresent()) {
             logger.debug("Found session in database...");
@@ -66,6 +67,7 @@ public class SessionFilter implements Filter {
             if (LocalDateTime.now().compareTo(sessionData.getValidUntil()) >= 0) {
                 logger.error(String.format("Session %s expired. Redirect to login...", sessionData.getSessionId()));
                 sessionService.delete(sessionData.getSessionId());
+                sessionService.finish();
                 res.sendRedirect(req.getContextPath() + "/login");
                 return;
             }
@@ -73,6 +75,7 @@ public class SessionFilter implements Filter {
             httpSession.setAttribute("user_id", sessionData.getUserId());
             httpSession.setAttribute("username", sessionData.getUsername());
             httpSession.setAttribute("role", sessionData.getRole());
+            httpSession.setAttribute("csrf-token", sessionData.getCsrfToken());
             // 60 * 60 = 3_600 = 1 hour
             httpSession.setMaxInactiveInterval(3_600);
 
@@ -80,6 +83,7 @@ public class SessionFilter implements Filter {
             validUntil = validUntil.plusHours(1);
             sessionData.setValidUntil(validUntil);
             sessionService.update(sessionData);
+            sessionService.finish();
             chain.doFilter(req, res);
         } else {
             logger.error("Session not found. Redirect to login...");
