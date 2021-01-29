@@ -69,6 +69,8 @@
             <label>Enter to date</label>
             <input type="date" name="dateTo" id="dateTo" class="input" required>
 
+            <input type="hidden" name="csrf-token" id="csrf-token" class="input" value="${sessionScope.get("csrf-token")}">
+
             <button type="submit" id="submit" class="button">Submit</button>
         </form>
     </div>

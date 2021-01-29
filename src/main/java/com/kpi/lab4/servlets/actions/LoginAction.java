@@ -53,8 +53,8 @@ public class LoginAction implements Action {
                         user.getUserType(),
                         user.getUsername()
                 ));
-                Cookie csrfCookie = new Cookie("XSRF-TOKEN", csrfToken);
-                response.addCookie(csrfCookie);
+//                Cookie csrfCookie = new Cookie("XSRF-TOKEN", csrfToken);
+//                response.addCookie(csrfCookie);
                 response.sendRedirect(request.getContextPath() + "/request");
             } else {
                 request.setAttribute("error", "Incorrect username or password.");
