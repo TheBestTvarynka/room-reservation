@@ -26,6 +26,7 @@ Maybe in future, I'll add new features to this project like advanced caching, se
 ### Other
 
 * CSRF-attack protection
+* Tests (JUnit, Mockito)
 
 ### Deploy
 
